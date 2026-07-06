@@ -712,9 +712,9 @@ function render(){
     if(d.desc) body+='<div class="sec"><h4>Service description</h4><p>'+esc(d.desc)+'</p></div>';
     if(d.notes && !liveRate) body+='<div class="sec notes"><h4>Notes</h4><p>'+esc(d.notes)+'</p></div>';
     var priceHtml;
-    if(d.ref){ priceHtml='<span class="rate">RATE CARD ▸</span>'; }
+    if(d.ref && !d.price){ priceHtml='<span class="rate">RATE CARD ▸</span>'; }
     else {
-      priceHtml='<div class="amt">'+esc(d.price||'')+'</div>'+(d.rec?'<div class="rec">'+esc(d.rec)+'</div>':'')+(d.mgmt?'<div class="mgmt">⚠ See Mgmt</div>':'');
+      priceHtml='<div class="amt">'+esc(d.price||'')+'</div>'+(d.rec?'<div class="rec">'+esc(d.rec)+'</div>':'')+(d.mgmt?'<div class="mgmt">⚠ See Mgmt</div>':'')+(d.ref?'<div style="margin-top:4px"><span class="rate">RATE CARD ▸</span></div>':'');
     }
     return '<div class="card" id="c'+i+'">'+
       '<div class="head" onclick="document.getElementById(\'c'+i+'\').classList.toggle(\'open\')">'+
