@@ -445,7 +445,10 @@ function visibleCats(){
 function sortByCat(arr){
   return arr.slice().sort(function(a,b){
     var ia=CAT_ORDER.indexOf(a.cat), ib=CAT_ORDER.indexOf(b.cat);
-    if(ia<0)ia=99; if(ib<0)ib=99; return ia-ib;
+    if(ia<0)ia=99; if(ib<0)ib=99;
+    if(ia!==ib) return ia-ib;
+    /* Pin column (Y) floats a card to the top of its category */
+    return (a.pin?0:1)-(b.pin?0:1);
   });
 }
 function parseCSV(text){
@@ -465,7 +468,7 @@ function rowsToCards(rows){
   var iS=idx("service"),iC=idx("category"),iSet=idx("setting"),iSeg=idx("segment"),
       iR=idx("role"),iP=idx("price"),iRec=idx("recurring"),iInc=idx("includes"),
       iN=idx("notes"),iD=idx("description"),iM=idx("seemgmt"),
-      iK=idx("ratekey"),iW=idx("keywords");
+      iK=idx("ratekey"),iW=idx("keywords"),iPin=idx("pin");
   var out=[];
   for(var r=1;r<rows.length;r++){
     var v=rows[r]; if(!v||!(v[iS]||"").trim()) continue;
@@ -478,6 +481,7 @@ function rowsToCards(rows){
     if((iM>=0?v[iM]:"").trim().toUpperCase()==="Y") card.mgmt=true;
     var rk=(iK>=0?v[iK]:"").trim(); if(rk){card.ref=true;card.rateKey=rk;}
     var kw=(iW>=0?v[iW]:"").trim(); if(kw) card.keywords=kw;
+    if((iPin>=0?v[iPin]:"").trim().toUpperCase()==="Y") card.pin=true;
     out.push(card);
   }
   return out;
