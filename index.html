@@ -587,8 +587,11 @@ function tryUnlock(){
   } else { document.getElementById('pwerr').textContent="Incorrect password — try again."; }
 }
 document.getElementById('pw').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
-/* remember the password for AUTH_DAYS so reps aren't re-typing it in the field */
+/* Password gate DISABLED for now — everyone goes straight in.
+   To re-enable: change GATE_ENABLED to true and re-upload. */
+var GATE_ENABLED = false;
 (function(){
+  if(!GATE_ENABLED){ unlock(); return; }
   var t=parseInt(lsGet("cseyeAuth")||"0",10);
   if(t && (Date.now()-t) < AUTH_DAYS*86400000) unlock();
 })();
